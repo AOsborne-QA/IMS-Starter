@@ -1,11 +1,13 @@
 package com.qa.ims.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.qa.ims.persistence.dao.ItemsDAO;
+import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.persistence.domain.Items;
 import com.qa.ims.utils.Utils;
 
@@ -39,8 +41,13 @@ public class ItemsController implements CrudController<Items> {
 
 	@Override
 	public Items create() {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.info("Please enter a product name");
+		String productName = utils.getString();
+		LOGGER.info("Please enter a price");
+		Double price = utils.getDouble();
+		Items items = itemsDAO.create(new Items(productName, price));
+		LOGGER.info("Product created");
+		return items;
 	}
 
 	@Override
