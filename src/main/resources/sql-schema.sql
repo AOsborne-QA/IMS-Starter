@@ -15,3 +15,12 @@ CREATE TABLE IF NOT EXISTS `ims`.`items` (
     `item_price` DECIMAL NULL DEFAULT NULL,
     PRIMARY KEY (`item_id`)
 );
+
+CREATE TABLE IF NOT EXISTS `ims`.`orders` (
+    `order_id` INT(11) UNIQUE NOT NULL AUTO_INCREMENT, 
+    `fk_item_id` INT UNIQUE NOT NULL,
+    `fk_customer_id` INT NOT NULL,
+    PRIMARY KEY (`order_id`),
+    FOREIGN KEY (`fk_customer_id`) REFERENCES customers(`customer_id`),
+    FOREIGN KEY (`fk_item_id`) REFERENCES items(`item_id`)
+);
