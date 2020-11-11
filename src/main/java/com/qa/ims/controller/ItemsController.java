@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.qa.ims.persistence.dao.ItemsDAO;
-import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.persistence.domain.Items;
 import com.qa.ims.utils.Utils;
 
@@ -38,6 +37,8 @@ public class ItemsController implements CrudController<Items> {
 		}
 		return items;
 	}
+	
+	// Add an order to the database through user input
 
 	@Override
 	public Items create() {
@@ -49,12 +50,22 @@ public class ItemsController implements CrudController<Items> {
 		LOGGER.info("Product created");
 		return items;
 	}
+	
+	// Updates an existing item based on user input
 
 	@Override
 	public Items update() {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.info("Please enter the id of the item you would like to update");
+		Long id = utils.getLong();
+		LOGGER.info("Please enter the name of a product");
+		String productName = utils.getString();
+		LOGGER.info("Please enter the price");
+		double price = utils.getDouble();
+		Items items = itemsDAO.update(new Items(id, productName, price));
+		return items;
 	}
+	
+	// Delete an existing item
 
 	@Override
 	public int delete() {
