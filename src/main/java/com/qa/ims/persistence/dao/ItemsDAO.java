@@ -1,6 +1,5 @@
 package com.qa.ims.persistence.dao;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +21,7 @@ public class ItemsDAO implements Dao<Items> {
 	public Items modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("id");
 		String productName = resultSet.getString("item_name");
-		BigDecimal price = resultSet.getBigDecimal("item_price");
+		Double price = resultSet.getDouble("item_price");
 		return new Items(id, productName, price);
 	}
 
