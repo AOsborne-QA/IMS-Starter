@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`customers` (
 CREATE TABLE IF NOT EXISTS `ims`.`items` (
     `item_id` INT(11) NOT NULL AUTO_INCREMENT,
     `item_name` VARCHAR(40) NULL DEFAULT NULL,
-    `item_price` DECIMAL NULL DEFAULT NULL,
+    `item_price` DOUBLE NULL DEFAULT NULL,
     PRIMARY KEY (`item_id`)
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`orders` (
 
 CREATE TABLE IF NOT EXISTS `ims`.`orders_items` (
     `order_item_id` INT(11) UNIQUE NOT NULL AUTO_INCREMENT,
-    `unit_price` DECIMAL NOT NULL, 
+    `unit_price` DOUBLE NOT NULL, 
     `quantity' INT NOT NULL,
     `fk_order_id` INT NOT NULL,
     `fk_item_id` INT NOT NULL,
