@@ -6,10 +6,16 @@ public class Orders {
 	private Long itemId;
 	private Long customerId;
 	private Double itemPrice;
-	private int quantity;
+	private Long quantity;
 	
 	
-	public Orders(Long id, Long itemId, Long customerId, Double itemPrice, int quantity) {
+	public Orders(Long itemId, Long customerId, Long quantity) {
+		this.customerId = customerId;
+		this.itemId = itemId;
+		this.quantity = quantity;
+	}
+	
+	public Orders(Long id, Double itemPrice, Long itemId, Long customerId, Long quantity) {
 		this.id = id;
 		this.itemId = itemId;
 		this.customerId = customerId;
@@ -58,12 +64,12 @@ public class Orders {
 	}
 
 
-	public int getQuantity() {
+	public Long getQuantity() {
 		return quantity;
 	}
 
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Long quantity) {
 		this.quantity = quantity;
 	}
 
