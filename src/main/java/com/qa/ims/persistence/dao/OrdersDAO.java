@@ -55,7 +55,25 @@ public class OrdersDAO implements Dao<Orders> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
 			statement.executeUpdate("INSERT INTO orders(fk_customer_id) values('" + order.getCustomerId() + "')");
+
+			addItem(order);
+			
+			return readLatest();
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}  
+		return null;
+		
+		
+	}
 	
+	
+	public Orders addItem(Orders order) {
+		
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();) {
+			
 			String orderIdQuery = "SELECT order_id FROM orders WHERE fk_customer_id = " + order.getCustomerId();
 			ResultSet orderquery = statement.executeQuery(orderIdQuery);
 			
@@ -70,8 +88,7 @@ public class OrdersDAO implements Dao<Orders> {
 			while(itemPriceQuery.next()) {
 				order.setItemPrice(itemPriceQuery.getDouble("item_price"));
 			}
-			
-
+		
 			statement.executeUpdate("INSERT INTO orders_items(unit_price, quantity, fk_order_id, fk_item_id) "
 					+ "values("+ order.getItemPrice() + ", " + order.getQuantity() + ", " + order.getId() + ", " + order.getItemId() + ")");
 			
@@ -82,10 +99,7 @@ public class OrdersDAO implements Dao<Orders> {
 			LOGGER.error(e.getMessage());
 		}  
 		return null;
-		
-		
 	}
-	
 
 
 
