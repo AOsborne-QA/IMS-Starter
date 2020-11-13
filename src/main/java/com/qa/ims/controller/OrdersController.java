@@ -45,10 +45,50 @@ public class OrdersController implements CrudController<Orders> {
 		Long itemQuantity = utils.getLong();
 		
 		Orders order = ordersDAO.create(new Orders(itemId, customerId, itemQuantity));
-	
 		
 		LOGGER.info("Item successfully added to order");
+		
+		LOGGER.info("Would you like to add another item to the order?");
+		LOGGER.info("Please enter yes or no");
+		String addNewItem = utils.getString();
+		
+		LOGGER.info(addNewItem);
+				
+		AddItem(addNewItem, customerId);
+		
 		return order;
+	}
+	
+	public Orders AddItem(String addNewItem, Long customerId) {
+		
+
+		if(addNewItem.toLowerCase().equals("yes")) {
+			
+			boolean startAddItem = true;
+			
+			while(startAddItem) {
+				LOGGER.info("Please enter an item id");
+				Long itemId = utils.getLong();
+				LOGGER.info("Please enter a quantity");
+				Long itemQuantity = utils.getLong();
+				ordersDAO.addItem(new Orders(itemId, customerId, itemQuantity));
+				LOGGER.info("Item successfully added to order");
+				
+				LOGGER.info("Would you like to add another item?");
+				LOGGER.info("Please enter yes or no");
+				String addExtra = utils.getString();
+				
+				if(addExtra.toLowerCase().equals("no")) {
+					startAddItem = false;
+				} 
+			}
+			return null;
+			
+		} else {
+			LOGGER.info("You are leaving");
+			return null;
+		}
+		
 	}
 
 	@Override
