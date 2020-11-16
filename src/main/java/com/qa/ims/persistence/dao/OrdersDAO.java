@@ -39,13 +39,10 @@ public class OrdersDAO implements Dao<Orders> {
 		
 		
 		return new Orders(id, itemPrice, itemId, customerId, quantity, orderId);
-//		return new Orders(id, customerId);
 	}
 
-//				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders JOIN orders_items "
-//						+ "ON orders.order_id = orders_items.fk_order_id");) 
-//		
-//			
+
+		
 	@Override
 	public List<Orders> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
@@ -144,11 +141,26 @@ public class OrdersDAO implements Dao<Orders> {
 	public int delete(long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			return statement.executeUpdate("delete orders_items, orders "
-					+ "from orders_items "
-					+ "INNER JOIN orders "
-					+ "ON orders.order_id = order_items.fk_order_id "
-					+ "WHERE orders_items.fk_order_id = " + id);
+			
+			statement.executeUpdate("delete from orders_items where fk_order_id = " + id);
+
+			
+			return statement.executeUpdate("delete from orders where order_id = " + id);
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return 0;
+	}
+	
+	
+	
+	public int deleteItem(long id) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();) {
+			
+			return statement.executeUpdate("delete from orders_items where order_item_id = " + id);
+			
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
