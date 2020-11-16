@@ -7,7 +7,19 @@ public class Orders {
 	private Long customerId;
 	private Double itemPrice;
 	private Long quantity;
+	private Long orderId;
 	
+	
+	@Override
+	public String toString() {
+		return "Order id= " + id + ", itemId= " + itemId + ", customerId= " + customerId + ", itemPrice= " + itemPrice
+				+ ", quantity= " + quantity + ", order Item Id=" + orderId + "]";
+	}
+
+	public Orders(Long orderId, Long customerId) {
+		this.customerId = customerId;
+		this.orderId = orderId;
+	}
 	
 	public Orders(Long itemId, Long customerId, Long quantity) {
 		this.customerId = customerId;
@@ -15,12 +27,13 @@ public class Orders {
 		this.quantity = quantity;
 	}
 	
-	public Orders(Long id, Double itemPrice, Long itemId, Long customerId, Long quantity) {
+	public Orders(Long id, Double itemPrice, Long itemId, Long customerId, Long quantity, Long orderId) {
 		this.id = id;
 		this.itemId = itemId;
 		this.customerId = customerId;
 		this.itemPrice = itemPrice;
 		this.quantity = quantity;
+		this.orderId = orderId;
 	}
 
 
@@ -33,6 +46,14 @@ public class Orders {
 		this.id = id;
 	}
 
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
 
 	public Long getItemId() {
 		return itemId;
@@ -73,8 +94,6 @@ public class Orders {
 		this.quantity = quantity;
 	}
 
-
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -104,13 +123,21 @@ public class Orders {
 				return false;
 		} else if (!itemPrice.equals(other.itemPrice))
 			return false;
-		if (quantity != other.quantity)
+		if (orderId == null) {
+			if (other.orderId != null)
+				return false;
+		} else if (!orderId.equals(other.orderId))
+			return false;
+		if (quantity == null) {
+			if (other.quantity != null)
+				return false;
+		} else if (!quantity.equals(other.quantity))
 			return false;
 		return true;
 	}
-	
-	
-	
+
+
+
 	
 	
 
