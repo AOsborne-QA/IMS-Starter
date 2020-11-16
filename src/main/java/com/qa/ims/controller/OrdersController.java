@@ -41,6 +41,7 @@ public class OrdersController implements CrudController<Orders> {
 			
 		LOGGER.info("Please enter an item id");
 		Long itemId = utils.getLong();
+		
 		LOGGER.info("Please enter a quantity");
 		Long itemQuantity = utils.getLong();
 		
@@ -49,10 +50,10 @@ public class OrdersController implements CrudController<Orders> {
 		LOGGER.info("Item successfully added to order");
 		
 		LOGGER.info("Would you like to add another item to the order?");
-		LOGGER.info("Please enter yes or no");
-		String addNewItem = utils.getString();
 		
-		LOGGER.info(addNewItem);
+		LOGGER.info("Please enter yes or no");
+		
+		String addNewItem = utils.getString();
 				
 		AddItem(addNewItem, customerId);
 		
@@ -99,8 +100,52 @@ public class OrdersController implements CrudController<Orders> {
 
 	@Override
 	public int delete() {
-		// TODO Auto-generated method stub
+		LOGGER.info("Would you like to delete an order or an item from an order?");
+		LOGGER.info("Please input order or item");
+		
+		String deleteInput = utils.getString();
+		
+		if(deleteInput.toLowerCase().equals("order")) {
+			LOGGER.info("Please input the ID of the order to delete");
+			Long orderId = utils.getLong();
+			
+			LOGGER.info("Order Deleted");
+			return ordersDAO.delete(orderId);
+			
+			
+		} else if (deleteInput.toLowerCase().equals("item")) {
+			LOGGER.info("Please input the ID of the order item to delete");
+			Long orderItemId = utils.getLong();
+			
+			LOGGER.info("Item deleted from order");
+			return ordersDAO.deleteItem(orderItemId);
+			
+		} 
+		
 		return 0;
 	}
+	
+	
+//	public Orders deleteChoice(String deleteInput) {
+//		
+//		if(deleteInput.toLowerCase().equals("order")) {
+//			LOGGER.info("Please input the ID of the order to delete");
+//			Long orderId = utils.getLong();
+//			
+//			ordersDAO.delete(orderId);
+//			LOGGER.info("Order Deleted");
+//			
+//		} else if (deleteInput.toLowerCase().equals("item")) {
+//			LOGGER.info("Please input the ID of the order item to delete");
+//			Long orderItemId = utils.getLong();
+//			
+//			ordersDAO.delete(orderItemId);
+//			LOGGER.info("Item deleted from order");
+//			
+//		} 
+//		return null;
+//		
+//	}
+//	
 
 }
