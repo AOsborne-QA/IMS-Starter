@@ -5,29 +5,58 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qa.ims.persistence.domain.Items;
 import com.qa.ims.persistence.domain.Orders;
 import com.qa.ims.utils.DBUtils;
 
 public class OrdersDAO implements Dao<Orders> {
 	
 	public static final Logger LOGGER = LogManager.getLogger();
+	
+	@Override
+	public Orders modelFromResultSet(ResultSet resultSet) throws SQLException {
+//		Long id = resultSet.getLong("order_id");
+//		Long customerId = resultSet.getLong("fk_customer_id");
+//		Long orderId = resultSet.getLong("order_item_id");
+//		Double itemPrice = resultSet.getDouble("unit_price");
+//		Long quantity = resultSet.getLong("quantity");
+//		Long itemId = resultSet.getLong("fk_item_id");
+		
+		Long id = resultSet.getLong("order_id");
+		Long customerId = resultSet.getLong("custId");
+		Long orderId = resultSet.getLong("orderItemId");
+		Long itemId = resultSet.getLong("item");
+		Double itemPrice = resultSet.getDouble("itemPrice");
+		Long quantity = resultSet.getLong("quantity");
+		
+		
+		
+		
+		return new Orders(id, itemPrice, itemId, customerId, quantity, orderId);
+//		return new Orders(id, customerId);
+	}
 
+//				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders JOIN orders_items "
+//						+ "ON orders.order_id = orders_items.fk_order_id");) 
+//		
+//			
 	@Override
 	public List<Orders> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders JOIN orders_items "
-						+ "ON orders.order_id = orders_items.fk_order_id");) {
-			List<Orders> orders = new ArrayList<>();
+				ResultSet resultSet = statement.executeQuery("SELECT order_id, fk_customer_id as custId, order_item_id as orderItemId, "
+						+ "fk_item_id as item, unit_price as itemPrice, quantity FROM orders CROSS JOIN orders_items ON orders.order_id = orders_items.fk_order_id");) {
+			List<Orders> order = new ArrayList<>();
 			while (resultSet.next()) {
-				orders.add(modelFromResultSet(resultSet));
+				order.add(modelFromResultSet(resultSet));
 			}
-			return orders;
+			return order;
 		} catch (SQLException e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -39,7 +68,9 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders JOIN orders_items ORDER BY order_id DESC LIMIT 1");) {
+				ResultSet resultSet = statement.executeQuery("SELECT order_id, fk_customer_id as custId, order_item_id as orderItemId, "
+						+ "fk_item_id as item, unit_price as itemPrice, quantity FROM orders CROSS JOIN orders_items "
+						+ "ON orders.order_id = orders_items.fk_order_id ORDER BY order_id DESC LIMIT 1");) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -125,17 +156,6 @@ public class OrdersDAO implements Dao<Orders> {
 		return 0;
 	}
 
-	@Override
-	public Orders modelFromResultSet(ResultSet resultSet) throws SQLException {
-		Long id = resultSet.getLong("order_id");
-		Double itemPrice = resultSet.getDouble("unit_price");
-		Long itemId = resultSet.getLong("fk_item_id");
-		Long customerId = resultSet.getLong("fk_customer_id");
-		Long quantity = resultSet.getLong("quantity");
-		return new Orders(id, itemPrice, itemId, customerId, quantity);
-	}
 
-
-	
 
 }
