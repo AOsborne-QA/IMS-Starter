@@ -36,8 +36,6 @@ public class OrdersController implements CrudController<Orders> {
 	public Orders create() {
 		LOGGER.info("Please enter a customer id");
 		Long customerId = utils.getLong();
-		
-		LOGGER.info("Order Created");
 			
 		LOGGER.info("Please enter an item id");
 		Long itemId = utils.getLong();
@@ -94,9 +92,56 @@ public class OrdersController implements CrudController<Orders> {
 
 	@Override
 	public Orders update() {
-		// TODO Auto-generated method stub
+		LOGGER.info("Would you like to update an entire order or only the customer associated to an order?");
+		LOGGER.info("Please input order or customer");
+		String selection = utils.getString();
+		
+		updateChoice(selection);
+		
 		return null;
 	}
+	
+	
+	public Orders updateChoice(String selection) {
+		
+		if(selection.equals("customer")) {
+			LOGGER.info("Please enter the Order id you would like to update");
+			Long orderId = utils.getLong();
+			LOGGER.info("Please enter the new id of the customer you would like the order to relate to");
+			Long customerId = utils.getLong();
+			
+			Orders order = ordersDAO.updateCustomer(new Orders(orderId, customerId));
+			
+			LOGGER.info("Order has been re-assigned to customer ID " + customerId);
+			return order;
+			
+		} else if (selection.equals("order")) {
+			
+			LOGGER.info("Please enter the Order id you would like to update");
+			Long orderId = utils.getLong();
+			
+			LOGGER.info("Please enter the new id of the customer");
+			Long customerId = utils.getLong();
+			
+			LOGGER.info("Please enter the Order Line ID you would like to update");
+			Long orderItemId = utils.getLong();
+			
+			LOGGER.info("Please enter the new id of the item");
+			Long itemId = utils.getLong();
+			
+			LOGGER.info("Please enter the new quantity amount");
+			Long quantity = utils.getLong();
+			
+			Orders order = ordersDAO.update(new Orders(orderId, customerId, orderItemId, itemId, quantity));
+			
+			LOGGER.info("Order has been updated with the new information");
+			return order;
+			
+		}
+		
+		return null;
+	}
+	
 
 	@Override
 	public int delete() {
@@ -125,27 +170,6 @@ public class OrdersController implements CrudController<Orders> {
 		return 0;
 	}
 	
-	
-//	public Orders deleteChoice(String deleteInput) {
-//		
-//		if(deleteInput.toLowerCase().equals("order")) {
-//			LOGGER.info("Please input the ID of the order to delete");
-//			Long orderId = utils.getLong();
-//			
-//			ordersDAO.delete(orderId);
-//			LOGGER.info("Order Deleted");
-//			
-//		} else if (deleteInput.toLowerCase().equals("item")) {
-//			LOGGER.info("Please input the ID of the order item to delete");
-//			Long orderItemId = utils.getLong();
-//			
-//			ordersDAO.delete(orderItemId);
-//			LOGGER.info("Item deleted from order");
-//			
-//		} 
-//		return null;
-//		
-//	}
-//	
+
 
 }
