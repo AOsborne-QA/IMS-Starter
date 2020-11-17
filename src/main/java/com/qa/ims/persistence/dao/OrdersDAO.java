@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -21,11 +20,11 @@ public class OrdersDAO implements Dao<Orders> {
 	@Override
 	public Orders modelFromResultSet(ResultSet resultSet) throws SQLException {
 
-		Long customerId = resultSet.getLong("custId");
+		Long customerId = resultSet.getLong("fk_customer_id");
 		Long orderId = resultSet.getLong("order_id");
-		Long orderItemId  = resultSet.getLong("orderItemId");
-		Long itemId = resultSet.getLong("item");
-		Double itemPrice = resultSet.getDouble("itemPrice");
+		Long orderItemId  = resultSet.getLong("order_item_id");
+		Long itemId = resultSet.getLong("fk_item_id");
+		Double itemPrice = resultSet.getDouble("unit_price");
 		Long quantity = resultSet.getLong("quantity");
 		Double orderCost = resultSet.getDouble("order_cost");
 		
@@ -37,8 +36,9 @@ public class OrdersDAO implements Dao<Orders> {
 	public List<Orders> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT order_id, fk_customer_id as custId, order_item_id as orderItemId, "
-						+ "fk_item_id as item, unit_price as itemPrice, quantity, order_cost FROM orders CROSS JOIN orders_items ON orders.order_id = orders_items.fk_order_id");) {
+				ResultSet resultSet = statement.executeQuery("SELECT order_id, fk_customer_id, order_item_id, "
+						+ "fk_item_id, unit_price, quantity, order_cost FROM orders CROSS JOIN orders_items ON "
+						+ "orders.order_id = orders_items.fk_order_id");) {
 			List<Orders> order = new ArrayList<>();
 			while (resultSet.next()) {
 				order.add(modelFromResultSet(resultSet));
@@ -55,8 +55,8 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT order_id, fk_customer_id as custId, order_item_id as orderItemId, "
-						+ "fk_item_id as item, unit_price as itemPrice, quantity, order_cost FROM orders CROSS JOIN orders_items "
+				ResultSet resultSet = statement.executeQuery("SELECT order_id, fk_customer_id, order_item_id, "
+						+ "fk_item_id, unit_price, quantity, order_cost FROM orders CROSS JOIN orders_items "
 						+ "ON orders.order_id = orders_items.fk_order_id ORDER BY order_id DESC LIMIT 1");) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
@@ -95,24 +95,7 @@ public class OrdersDAO implements Dao<Orders> {
 		
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			
-			// Obtains the orderId from the database and assigns to variable
-			String orderIdQuery = "SELECT order_id FROM orders WHERE fk_customer_id = " + order.getCustomerId();
-			ResultSet orderquery = statement.executeQuery(orderIdQuery);
-			
-
-			while(orderquery.next()) {
-				order.setOrderId(orderquery.getLong("order_id"));
-			}
-			
-			// Obtains the itemPrice from the database and assigns to variable
-			String itemQuery = "SELECT item_price FROM items WHERE item_id = " + order.getItemId();
-			ResultSet itemPriceQuery = statement.executeQuery(itemQuery);
-			
-			while(itemPriceQuery.next()) {
-				order.setItemPrice(itemPriceQuery.getDouble("item_price"));
-			}
-			
+					
 			// Calculates cost of order and sets orderCost to order object.
 			calculateCost(order);
 		
@@ -132,9 +115,10 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders readOrders(Long orderId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT order_id, fk_customer_id as custId, order_item_id as orderItemId, "
-						+ "fk_item_id as item, unit_price as itemPrice, quantity, order_cost FROM orders CROSS JOIN orders_items "
-						+ "ON orders.order_id = orders_items.fk_order_id where order_id = " + orderId + " ORDER BY order_id DESC LIMIT 1");) {
+				ResultSet resultSet = statement.executeQuery("SELECT order_id, fk_customer_id, order_item_id, "
+						+ "fk_item_id, unit_price, quantity, order_cost FROM orders CROSS JOIN orders_items "
+						+ "ON orders.order_id = orders_items.fk_order_id where order_id = " + orderId + 
+						" ORDER BY order_id DESC LIMIT 1");) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -156,10 +140,30 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders update(Orders order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("update orders set fk_customer_id ='" + order.getCustomerId() + "where order_id = "
-					+ order.getOrderId());
 			
-			statement.executeUpdate("update orders_items set fk_customer_id ='" + order.getCustomerId() + "where order_id = "
+			// Runs the method to update the customer assigned to order
+			updateCustomer(order);
+			
+			// Updates the cost of the order based on new item and quantity
+			calculateCost(order);
+			
+			statement.executeUpdate("UPDATE orders_items SET fk_item_id = " + order.getItemId() + ", unit_price = " 
+			+ order.getItemPrice() + ", quantity = " + order.getQuantity() + ", order_cost = " + order.getOrderCost() 
+			+" WHERE order_item_id = " + order.getOrderItemId());
+			
+			return readOrders(order.getOrderId());
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+	
+	
+	public Orders updateCustomer(Orders order) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("update orders set fk_customer_id = '" + order.getCustomerId() + "' WHERE order_id = "
 					+ order.getOrderId());
 			
 			return readOrders(order.getOrderId());
@@ -169,6 +173,7 @@ public class OrdersDAO implements Dao<Orders> {
 		}
 		return null;
 	}
+	
 	
 	/**
 	 * Deletes an order and order_items from the database
@@ -220,10 +225,36 @@ public class OrdersDAO implements Dao<Orders> {
 	 */
 	
 	public void calculateCost(Orders order) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();) {
+			
+			// Obtains the orderId from the database and assigns to variable
+			String orderIdQuery = "SELECT order_id FROM orders WHERE fk_customer_id = " + order.getCustomerId();
+			ResultSet orderquery = statement.executeQuery(orderIdQuery);
+			
+
+			while(orderquery.next()) {
+				order.setOrderId(orderquery.getLong("order_id"));
+			}
+			
+			// Obtains the itemPrice from the database and assigns to variable
+			String itemQuery = "SELECT item_price FROM items WHERE item_id = " + order.getItemId();
+			ResultSet itemPriceQuery = statement.executeQuery(itemQuery);
+			
+			while(itemPriceQuery.next()) {
+				order.setItemPrice(itemPriceQuery.getDouble("item_price"));
+			}
+			
+			// Calculates cost of order and sets orderCost to order object.
+			double orderCost = order.getItemPrice() * order.getQuantity();
+			
+			order.setOrderCost(orderCost);
 		
-		double orderCost = order.getItemPrice() * order.getQuantity();
-		
-		order.setOrderCost(orderCost);
+
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}  
 		
 	}
 
