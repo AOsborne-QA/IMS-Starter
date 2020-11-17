@@ -13,7 +13,7 @@ public class Orders {
 
 	@Override
 	public String toString() {
-		return "orderId= " + orderId + "customerId= " + customerId +", orderItemId= " + orderItemId
+		return "orderId= " + orderId + ", customerId= " + customerId +", orderItemId= " + orderItemId
 				+ ", itemId= " + itemId + ", itemPrice= £" + itemPrice + ", quantity= " + quantity + ", orderCost= £"
 				+ orderCost ;
 	}
@@ -30,13 +30,22 @@ public class Orders {
 	}
 	
 	
-	public Orders(Double itemPrice, Long quantity) {
+	public Orders(Long customerId, Double itemPrice, Long quantity) {
+		this.customerId = customerId;
 		this.itemPrice = itemPrice;
 		this.quantity = quantity;
 	}
 	
 	public Orders(Long itemId, Long customerId, Long quantity) {
 		this.customerId = customerId;
+		this.itemId = itemId;
+		this.quantity = quantity;
+	}
+	
+	public Orders(Long orderId, Long customerId, Long orderItemId, Long itemId, Long quantity) {
+		this.orderId = orderId;
+		this.customerId = customerId;
+		this.orderItemId = orderItemId;
 		this.itemId = itemId;
 		this.quantity = quantity;
 	}
