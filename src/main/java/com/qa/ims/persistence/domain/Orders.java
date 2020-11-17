@@ -2,23 +2,37 @@ package com.qa.ims.persistence.domain;
 
 public class Orders {
 	
-	private Long id;
-	private Long itemId;
 	private Long customerId;
+	private Long orderId;
+	private Long orderItemId;
+	private Long itemId;
 	private Double itemPrice;
 	private Long quantity;
-	private Long orderId;
+	private Double orderCost;
 	
-	
+
 	@Override
 	public String toString() {
-		return "Order id= " + id + ", itemId= " + itemId + ", customerId= " + customerId + ", itemPrice= " + itemPrice
-				+ ", quantity= " + quantity + ", order Item Id=" + orderId + "]";
+		return "orderId= " + orderId + "customerId= " + customerId +", orderItemId= " + orderItemId
+				+ ", itemId= " + itemId + ", itemPrice= £" + itemPrice + ", quantity= " + quantity + ", orderCost= £"
+				+ orderCost ;
 	}
 
+
+	public Orders(Long orderId) {
+		this.orderId = orderId;
+	}
+	
+	
 	public Orders(Long orderId, Long customerId) {
 		this.customerId = customerId;
 		this.orderId = orderId;
+	}
+	
+	
+	public Orders(Double itemPrice, Long quantity) {
+		this.itemPrice = itemPrice;
+		this.quantity = quantity;
 	}
 	
 	public Orders(Long itemId, Long customerId, Long quantity) {
@@ -27,41 +41,17 @@ public class Orders {
 		this.quantity = quantity;
 	}
 	
-	public Orders(Long id, Double itemPrice, Long itemId, Long customerId, Long quantity, Long orderId) {
-		this.id = id;
-		this.itemId = itemId;
+
+	public Orders(Long customerId, Long orderId, Long orderItemId, Long itemId, Double itemPrice, Long quantity,
+			Double orderCost) {
+		super();
 		this.customerId = customerId;
+		this.orderId = orderId;
+		this.orderItemId = orderItemId;
+		this.itemId = itemId;
 		this.itemPrice = itemPrice;
 		this.quantity = quantity;
-		this.orderId = orderId;
-	}
-
-
-	public Long getId() {
-		return id;
-	}
-
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-	public Long getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
-	}
-
-	public Long getItemId() {
-		return itemId;
-	}
-
-
-	public void setItemId(Long itemId) {
-		this.itemId = itemId;
+		this.orderCost = orderCost;
 	}
 
 
@@ -72,6 +62,36 @@ public class Orders {
 
 	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
+	}
+
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+
+	public Long getOrderItemId() {
+		return orderItemId;
+	}
+
+
+	public void setOrderItemId(Long orderItemId) {
+		this.orderItemId = orderItemId;
+	}
+
+
+	public Long getItemId() {
+		return itemId;
+	}
+
+
+	public void setItemId(Long itemId) {
+		this.itemId = itemId;
 	}
 
 
@@ -94,6 +114,17 @@ public class Orders {
 		this.quantity = quantity;
 	}
 
+
+	public Double getOrderCost() {
+		return orderCost;
+	}
+
+
+	public void setOrderCost(Double orderCost) {
+		this.orderCost = orderCost;
+	}
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -108,11 +139,6 @@ public class Orders {
 				return false;
 		} else if (!customerId.equals(other.customerId))
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
 		if (itemId == null) {
 			if (other.itemId != null)
 				return false;
@@ -123,10 +149,20 @@ public class Orders {
 				return false;
 		} else if (!itemPrice.equals(other.itemPrice))
 			return false;
+		if (orderCost == null) {
+			if (other.orderCost != null)
+				return false;
+		} else if (!orderCost.equals(other.orderCost))
+			return false;
 		if (orderId == null) {
 			if (other.orderId != null)
 				return false;
 		} else if (!orderId.equals(other.orderId))
+			return false;
+		if (orderItemId == null) {
+			if (other.orderItemId != null)
+				return false;
+		} else if (!orderItemId.equals(other.orderItemId))
 			return false;
 		if (quantity == null) {
 			if (other.quantity != null)
@@ -135,11 +171,6 @@ public class Orders {
 			return false;
 		return true;
 	}
-
-
-
-	
-	
 
 
 }
