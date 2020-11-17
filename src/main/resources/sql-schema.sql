@@ -1,6 +1,6 @@
 drop schema ims;
 CREATE SCHEMA IF NOT EXISTS `ims`;
-USE `ims` ;
+USE `ims`;
 
 CREATE TABLE IF NOT EXISTS `ims`.`customers` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -18,20 +18,19 @@ CREATE TABLE IF NOT EXISTS `ims`.`items` (
 
 CREATE TABLE IF NOT EXISTS `ims`.`orders` (
     `order_id` INT(11) UNIQUE NOT NULL AUTO_INCREMENT, 
-    `fk_item_id` INT UNIQUE NOT NULL,
     `fk_customer_id` INT NOT NULL,
     PRIMARY KEY (`order_id`),
-    FOREIGN KEY (`fk_customer_id`) REFERENCES customers(`customer_id`),
-    FOREIGN KEY (`fk_item_id`) REFERENCES items(`item_id`)
+    CONSTRAINT `fk_customer_id` FOREIGN KEY (`fk_customer_id`) REFERENCES customers(`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `ims`.`orders_items` (
     `order_item_id` INT(11) UNIQUE NOT NULL AUTO_INCREMENT,
-    `unit_price` DOUBLE NOT NULL, 
-    `quantity' INT NOT NULL,
     `fk_order_id` INT NOT NULL,
-    `fk_item_id` INT NOT NULL,
+    `fk_item_id` INT NOT NULL,    
+    `unit_price` DOUBLE NOT NULL, 
+    `quantity` INT NOT NULL,
+	`order_cost` DOUBLE NOT NULL,
     PRIMARY KEY (`order_item_id`),
-    FOREIGN KEY (`fk_order_id`) REFERENCES orders(`order_id`),
-    FOREIGN KEY (`fk_item_id`) REFERENCES items(`item_id`)
+    CONSTRAINT `fk_order_id` FOREIGN KEY(`fk_order_id`) REFERENCES `ims`.`orders`(`order_id`),
+    CONSTRAINT `fk_item_id` FOREIGN KEY(`fk_item_id`) REFERENCES `ims`.`items`(`item_id`)
 );
