@@ -1,4 +1,4 @@
-package com.qa.ims.controllers;
+package com.qa.ims.controller;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.qa.ims.controller.CustomerController;
 import com.qa.ims.persistence.dao.CustomerDAO;
 import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.utils.Utils;
@@ -73,8 +72,10 @@ public class CustomerControllerTest {
 	@Test
 	public void testDelete() {
 		final long ID = 1L;
+		String selection = "yes";
 
 		Mockito.when(utils.getLong()).thenReturn(ID);
+		Mockito.when(utils.getString()).thenReturn(selection);
 		Mockito.when(dao.delete(ID)).thenReturn(1);
 
 		assertEquals(1L, this.controller.delete());
@@ -82,5 +83,20 @@ public class CustomerControllerTest {
 		Mockito.verify(utils, Mockito.times(1)).getLong();
 		Mockito.verify(dao, Mockito.times(1)).delete(ID);
 	}
+	
+	@Test
+	public void testDeleteNo() {
+		final long ID = 1L;
+		String selection = "no";
+
+		Mockito.when(utils.getLong()).thenReturn(ID);
+		Mockito.when(utils.getString()).thenReturn(selection);
+		
+		assertEquals(0, this.controller.delete());
+
+		Mockito.verify(utils, Mockito.times(1)).getLong();
+	}
+	
+
 
 }
