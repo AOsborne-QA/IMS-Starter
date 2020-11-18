@@ -54,7 +54,7 @@ public class ItemsControllerTest {
 	
 	
 	@Test
-	public void update() {
+	public void testUpdate() {
 		Long id = 1L;
 		String productName = "Beer";
 		Double price = 9.99;
@@ -74,7 +74,7 @@ public class ItemsControllerTest {
 	}
 	
 	@Test
-	public void readAll() {
+	public void testReadAll() {
 		List<Items> items = new ArrayList<>();
 		items.add(new Items(1L, "Pringles", 5.99));
 		
@@ -86,18 +86,36 @@ public class ItemsControllerTest {
 	}
 	
 	@Test
-	public void delete() {
+	public void testDeleteYes() {
 		Long id = 1L;
-		
+		String selection = "yes";
+
 		when(utils.getLong()).thenReturn(id);
-		
+		when(utils.getString()).thenReturn(selection);
 		when(itemsDAO.delete(id)).thenReturn(1);
+		
 		
 		assertEquals(1L, this.itemsController.delete());
 
 		verify(utils, times(1)).getLong();
+		verify(utils, times(1)).getString();
 		verify(itemsDAO, times(1)).delete(id);
 		
+	}
+	
+	@Test
+	public void testDeleteNo() {
+		Long id = 1L;
+		String selection = "no";
+
+		when(utils.getLong()).thenReturn(id);
+		when(utils.getString()).thenReturn(selection);
+
+		
+		assertEquals(0, this.itemsController.delete());
+
+		verify(utils, times(1)).getLong();
+		verify(utils, times(1)).getString();
 		
 	}
 	
