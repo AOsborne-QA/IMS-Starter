@@ -123,6 +123,27 @@ public class ItemsDAO implements Dao<Items> {
 	public int delete(long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
+			
+			String orderIdQuery = "SELECT order_item_id FROM orders_items WHERE fk_item_id = " + id;
+			ResultSet orderquery = statement.executeQuery(orderIdQuery);
+			
+			List<Long> items = new ArrayList<>();
+			while (orderquery.next()) {
+				items.add(orderquery.getLong("order_id"));
+			}
+			
+
+			items.forEach((n) -> {
+				try {
+					statement.executeUpdate("DELETE FROM orders_items WHERE fk_order_id = " + n);
+				} catch (Exception e) {
+					LOGGER.debug(e);
+					LOGGER.error(e.getMessage());
+				}
+					
+			});
+			
+			
 			return statement.executeUpdate("DELETE FROM items WHERE item_id = " + id);
 		} catch (Exception e) {
 			LOGGER.debug(e);
