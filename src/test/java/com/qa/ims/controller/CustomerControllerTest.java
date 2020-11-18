@@ -81,6 +81,7 @@ public class CustomerControllerTest {
 		assertEquals(1L, this.controller.delete());
 
 		Mockito.verify(utils, Mockito.times(1)).getLong();
+		Mockito.verify(utils, Mockito.times(1)).getString();
 		Mockito.verify(dao, Mockito.times(1)).delete(ID);
 	}
 	
@@ -95,6 +96,7 @@ public class CustomerControllerTest {
 		assertEquals(0, this.controller.delete());
 
 		Mockito.verify(utils, Mockito.times(1)).getLong();
+		Mockito.verify(utils, Mockito.times(1)).getString();
 	}
 	
 
