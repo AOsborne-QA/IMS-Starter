@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import static org.mockito.Mockito.when;
 
@@ -96,8 +95,8 @@ public class ItemsControllerTest {
 		
 		assertEquals(1L, this.itemsController.delete());
 
-		Mockito.verify(utils, Mockito.times(1)).getLong();
-		Mockito.verify(itemsDAO, Mockito.times(1)).delete(id);
+		verify(utils, times(1)).getLong();
+		verify(itemsDAO, times(1)).delete(id);
 		
 		
 	}
