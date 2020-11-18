@@ -70,7 +70,19 @@ public class ItemsController implements CrudController<Items> {
 	public int delete() {
 		LOGGER.info("Please enter the id of the item you would like to delete");
 		Long id = utils.getLong();
-		return itemsDAO.delete(id);
+
+		LOGGER.info("Please confirm to proceed with deleting orders relating to this item?");
+		LOGGER.info("Input YES to proceed or NO to exit");
+		String selection = utils.getString();
+		
+		if(selection.toLowerCase().equals("yes")) {
+			LOGGER.info("Item has been deleted");
+			return itemsDAO.delete(id);
+		} else {
+			LOGGER.info("Item has not been deleted");
+			return 0;
+		}
+		
 	}
 
 }
