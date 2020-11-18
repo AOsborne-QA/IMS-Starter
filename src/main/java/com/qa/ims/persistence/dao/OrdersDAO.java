@@ -96,7 +96,6 @@ public class OrdersDAO implements Dao<Orders> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
 					
-			// Calculates cost of order and sets orderCost to order object.
 			calculateCost(order);
 		
 			statement.executeUpdate("INSERT INTO orders_items(fk_order_id, fk_item_id, unit_price, quantity, order_cost) "
@@ -141,10 +140,8 @@ public class OrdersDAO implements Dao<Orders> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
 			
-			// Runs the method to update the customer assigned to order
 			updateCustomer(order);
 			
-			// Updates the cost of the order based on new item and quantity
 			calculateCost(order);
 			
 			statement.executeUpdate("UPDATE orders_items SET fk_item_id = " + order.getItemId() + ", unit_price = " 
@@ -186,10 +183,9 @@ public class OrdersDAO implements Dao<Orders> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
 			
-			// Deletes the order_items that have the orderId as a foreign key
 			statement.executeUpdate("delete from orders_items where fk_order_id = " + orderId);
 
-			// Deletes the orders that have the orderId as primary
+
 			return statement.executeUpdate("delete from orders where order_id = " + orderId);
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -228,7 +224,6 @@ public class OrdersDAO implements Dao<Orders> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
 			
-			// Obtains the orderId from the database and assigns to variable
 			String orderIdQuery = "SELECT order_id FROM orders WHERE fk_customer_id = " + order.getCustomerId();
 			ResultSet orderquery = statement.executeQuery(orderIdQuery);
 			
@@ -237,7 +232,6 @@ public class OrdersDAO implements Dao<Orders> {
 				order.setOrderId(orderquery.getLong("order_id"));
 			}
 			
-			// Obtains the itemPrice from the database and assigns to variable
 			String itemQuery = "SELECT item_price FROM items WHERE item_id = " + order.getItemId();
 			ResultSet itemPriceQuery = statement.executeQuery(itemQuery);
 			
@@ -245,7 +239,6 @@ public class OrdersDAO implements Dao<Orders> {
 				order.setItemPrice(itemPriceQuery.getDouble("item_price"));
 			}
 			
-			// Calculates cost of order and sets orderCost to order object.
 			double orderCost = order.getItemPrice() * order.getQuantity();
 			
 			order.setOrderCost(orderCost);
