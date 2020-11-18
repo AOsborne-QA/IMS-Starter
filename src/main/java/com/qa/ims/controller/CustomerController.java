@@ -77,7 +77,19 @@ public class CustomerController implements CrudController<Customer> {
 	public int delete() {
 		LOGGER.info("Please enter the id of the customer you would like to delete");
 		Long id = utils.getLong();
-		return customerDAO.delete(id);
+		
+		LOGGER.info("Please confirm to proceed with deleting orders relating to this customer?");
+		LOGGER.info("Input YES to proceed or NO to exit");
+		String selection = utils.getString();
+		
+		if(selection.toLowerCase().equals("yes")) {
+			LOGGER.info("Customer has been deleted");
+			return customerDAO.delete(id);
+		} else {
+			LOGGER.info("Customer has not been deleted");
+			return 0;
+		}
+		
 	}
 
 }
