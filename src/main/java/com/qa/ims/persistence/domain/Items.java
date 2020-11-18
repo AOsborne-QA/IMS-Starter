@@ -6,6 +6,10 @@ public class Items {
 	private String productName;
 	private Double price;
 	
+	public Items(Long id) {
+		this.id = id;
+	}
+	
 	public Items(String productName, Double price) {
 		this.productName = productName;
 		this.price = price;
