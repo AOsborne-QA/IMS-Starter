@@ -34,7 +34,7 @@ public class ItemsDAO implements Dao<Items> {
 	public List<Items> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("select * from items");) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM items");) {
 			List<Items> items = new ArrayList<>();
 			while (resultSet.next()) {
 				items.add(modelFromResultSet(resultSet));
@@ -65,11 +65,12 @@ public class ItemsDAO implements Dao<Items> {
 	 * 
 	 * @param items - takes in a items object. id will be ignored
 	 */
+	
 	@Override
 	public Items create(Items item) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("INSERT INTO items(item_name, item_price) values('" + item.getName()
+			statement.executeUpdate("INSERT INTO items(item_name, item_price) VALUES('" + item.getName()
 					+ "','" + item.getPrice() + "')");
 			return readLatest();
 		} catch (Exception e) {
@@ -82,7 +83,7 @@ public class ItemsDAO implements Dao<Items> {
 	public Items readItems(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM items where item_id = " + id);) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM items WHERE item_id = " + id);) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -103,8 +104,8 @@ public class ItemsDAO implements Dao<Items> {
 	public Items update(Items item) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("update items set item_name ='" + item.getName() + "', item_price ='"
-					+ item.getPrice() + "' where item_id =" + item.getId());
+			statement.executeUpdate("UPDATE items SET item_name ='" + item.getName() + "', item_price ='"
+					+ item.getPrice() + "' WHERE item_id =" + item.getId());
 			return readItems(item.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -122,7 +123,7 @@ public class ItemsDAO implements Dao<Items> {
 	public int delete(long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			return statement.executeUpdate("delete from items where item_id = " + id);
+			return statement.executeUpdate("DELETE FROM items WHERE item_id = " + id);
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
