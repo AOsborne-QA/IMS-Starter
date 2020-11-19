@@ -21,7 +21,7 @@ In order for you to be able to further develop and utilise this project, you req
 
 ### Installing
 
-To run this project locally, you can follow the below steps:
+To run this project locally in a development environment, you can follow the below steps:
 
 #### Obtaining The Repository
 
@@ -60,7 +60,21 @@ Give an example
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+To delpoy a live version of this application you will need to do the following:
+
+Note: Please ensure that you have the prerequisites and your ``ims`` database setup on MySQL localhost before proceeding with the below.
+
+1. Fork this repository into your own.
+2. Using **Git Bash**, clone your respository onto your local machine using ``git clone``.
+3. Open a terminal such as ``CMD`` or ``Windows Powershell``
+4. Change directory to where you placed the repository on your local machine.
+5. Input the following to launch the application:
+  - ```java -jar FILELOCATION*```
+  * i.e. ``C\USERS\USER\DESKTOP\IMS-Starter\ims-0.0.1-jar-with-dependencies.jar``
+6. Input your credentials to access your localhost test mySQL database.
+7. You are now able to use the application:
+
+![Customer creation example](https://res.cloudinary.com/andy-osborne/image/upload/v1605790811/IMS/Hnet.com-image_ghoamw.gif)
 
 ## Built With
 
