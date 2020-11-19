@@ -1,7 +1,9 @@
-Coverage: 34%
+Coverage: 80.3%
 # Project Title
 
-One Paragraph of project description goes here
+IMS-Starter is an inventory management interface that has been built with Create, Read, Update, Delete (CRUD) functionality in mind that allows a user these options when working with customers, items and orders and interacting with a MySQL database.
+
+This has been built using Java as the main technology, compiled using Maven and tested using JUnit & Mockito.
 
 ## Getting Started
 
@@ -9,11 +11,12 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+In order for you to be able to further develop and utilise this project, you require the following:
 
-```
-Give examples
-```
+- [Java 1.8.0](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
+- [Apachace Maven V3.63](https://maven.apache.org/download.cgi)
+- [MySQL v8.022](https://www.mysql.com/downloads/) or later - Local or hosted
+- IDE of your choice such as [Eclipse](https://www.eclipse.org/downloads/)
 
 ### Installing
 
@@ -47,14 +50,6 @@ Give an example
 
 ### Integration Tests 
 Explain what these tests test, why and how to run them
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
 
 ```
 Give an example
