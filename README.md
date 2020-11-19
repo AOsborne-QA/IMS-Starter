@@ -41,22 +41,22 @@ Alternatively, to run the application itself without using an IDE you can view t
 
 ## Running the tests
 
-Explain how to run the automated tests for this system. Break down into which tests and what they do
+This project has been tested with a suite of automated tests which make use of Junit and Mockito. The overall test branch can be found [here](https://github.com/AOsborne-QA/IMS-Starter/tree/master/src/test). 
+
+The results of the all tests can be seen within the coverage summary below:
+
+![Coverage test summary](https://res.cloudinary.com/andy-osborne/image/upload/v1605789665/IMS/Coverage-Breakdown_s1hnxn.png)
 
 ### Unit Tests 
 
-Explain what these tests test, why and how to run them
+The units tests have been made to specifically test the Data Access Objects (DAO) such as the customersDAO. Open forking this code, you will find the [unit test files](https://github.com/AOsborne-QA/IMS-Starter/tree/master/src/test/java/com/qa/ims/persistence/dao) which can be run to verify that the code written works as intended and these DAOs perform their CRUD functionality:
 
-```
-Give an example
-```
+![OrdersDAO test example](https://res.cloudinary.com/andy-osborne/image/upload/v1605804139/IMS/ordersDAO_ddo8da.png)
 
 ### Integration Tests 
-Explain what these tests test, why and how to run them
+The integration tests have been made to specifically test the controllers of the IMS that handle the customer, items and orders interaction by mocking the required objects to ensure everything works. You can find these tests for the [intergration controller tests](https://github.com/AOsborne-QA/IMS-Starter/tree/master/src/test/java/com/qa/ims/controller) here which you can run within your own IDE.
 
-```
-Give an example
-```
+![controller test example](https://res.cloudinary.com/andy-osborne/image/upload/v1605804723/IMS/controllerTest_u86rrr.png)
 
 ## Deployment
 
@@ -82,7 +82,7 @@ Note: Please ensure that you have the prerequisites and your ``ims`` database se
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning.
+For version control, [Git](https://git-scm.com/).
 
 ## Authors
 
