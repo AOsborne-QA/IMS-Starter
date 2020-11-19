@@ -68,7 +68,7 @@ Note: Please ensure that you have the prerequisites and your ``ims`` database se
 2. Using **Git Bash**, clone your respository onto your local machine using ``git clone``.
 3. Open a terminal such as ``CMD`` or ``Windows Powershell``
 4. Change directory to where you placed the repository on your local machine.
-5. Input the following to launch the application:
+5. Input the following to launch the application using the ``ims-0.0.1-jar-with-dependencies.jar`` within the main ``IMS-Starter`` respository:
   - ```java -jar FILELOCATION*```
   * i.e. ``C\USERS\USER\DESKTOP\IMS-Starter\ims-0.0.1-jar-with-dependencies.jar``
 6. Input your credentials to access your localhost test mySQL database.
