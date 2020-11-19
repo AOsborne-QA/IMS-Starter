@@ -1,5 +1,5 @@
 Coverage: 80.3%
-# Project Title
+# Inventory Management System (IMS)
 
 IMS-Starter is an inventory management interface that has been built with Create, Read, Update, Delete (CRUD) functionality in mind that allows a user these options when working with customers, items and orders and interacting with a MySQL database.
 
@@ -87,7 +87,7 @@ We use [SemVer](http://semver.org/) for versioning.
 ## Authors
 
 * **Chris Perrins** - *Initial work* - [christophperrins](https://github.com/christophperrins)
-
+* **Andy Osborne** - *Finalisation project* - [AOsborne-QA](https://github.com/AOsborne-QA/)
 ## License
 
 This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md) file for details 
@@ -96,6 +96,4 @@ This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* Thank you to Piers Barber & Aswene Sivaraj for their patience in teaching me Java and assisting with queries.
