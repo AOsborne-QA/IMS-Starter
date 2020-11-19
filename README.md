@@ -17,24 +17,27 @@ In order for you to be able to further develop and utilise this project, you req
 - [Apachace Maven V3.63](https://maven.apache.org/download.cgi)
 - [MySQL v8.022](https://www.mysql.com/downloads/) or later - Local or hosted
 - IDE of your choice such as [Eclipse](https://www.eclipse.org/downloads/)
+- [Git Bash](https://git-scm.com/downloads)
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+To run this project locally, you can follow the below steps:
 
-Say what the step will be
+#### Obtaining The Repository
 
-```
-Give the example
-```
+1. Fork this repository into your own.
+2. Using **Git Bash**, clone your respository onto your local machine using ``git clone``.
+3. Create your required branches for development.
+4. Open your IDE such as **Eclipse**.
+5. Open the project as a **Maven project**
+6. Run project as a Java application to use it.
 
-And repeat
+#### Setting up MySQL
 
-```
-until finished
-```
+1. Open your **MySQL** workbench.
+2. Create a database called ``ims``.
 
-End with an example of getting some data out of the system or using it for a little demo
+Alternatively, to run the application itself without using an IDE you can view the [deployment section](#deployment).
 
 ## Running the tests
 
