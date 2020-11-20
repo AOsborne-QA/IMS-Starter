@@ -129,13 +129,13 @@ public class ItemsDAO implements Dao<Items> {
 			
 			List<Long> items = new ArrayList<>();
 			while (orderquery.next()) {
-				items.add(orderquery.getLong("order_id"));
+				items.add(orderquery.getLong("order_item_id"));
 			}
 			
 
 			items.forEach((n) -> {
 				try {
-					statement.executeUpdate("DELETE FROM orders_items WHERE fk_order_id = " + n);
+					statement.executeUpdate("DELETE FROM orders_items WHERE order_item_id = " + n);
 				} catch (Exception e) {
 					LOGGER.debug(e);
 					LOGGER.error(e.getMessage());
